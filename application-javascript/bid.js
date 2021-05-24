@@ -8,6 +8,8 @@
 
 const { Gateway, Wallets } = require('fabric-network');
 const path = require('path');
+const performance = require('perf_hooks').performance;
+const fs = require('fs')
 const { exit } = require('process');
 const { buildCCPOrg1, buildCCPOrg2, buildWallet} = require('../../test-application/javascript/AppUtil.js');
 
@@ -49,7 +51,7 @@ async function bid(ccp,wallet,user,auctionID,prices,times,quantities) {
 
 async function main() {
 	try {
-
+		const start = performance.now();
 		if (process.argv[2] === undefined || process.argv[3] === undefined ||
             process.argv[4] === undefined || process.argv[5] === undefined ||
             process.argv[6] === undefined || process.argv[7] === undefined) {
@@ -83,6 +85,13 @@ async function main() {
 			console.log('Usage: node bid.js org userID auctionID prices times quantities');
 			console.log('Org must be Org1 or Org2');
 		}
+		const end = performance.now();
+		fs.appendFile('measure_bid.txt', `${(end - start)/1000}`, err => {
+			if (err) {
+			  console.error(err)
+			  return
+			}
+		})
 	} catch (error) {
 		console.error(`******** FAILED to run the application: ${error}`);
 		process.exit(1);
