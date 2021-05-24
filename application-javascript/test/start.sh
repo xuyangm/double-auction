@@ -15,14 +15,6 @@ bash accountReg.sh
 bash bidConfig.sh 000
 for (( i = 1; i <= 100 ; i ++ ))
 do
-  start=$(date +%s) 
   node ../withdraw.js org1 buyer1 000
-  end=$(date +%s)
-  time=`echo $start $end | awk '{print $2-$1}'`
-  echo $time >> measure_withdraw.txt
-  start=$(date +%s) 
   node ../updateRating.js org1 buyer1 8 seller1
-  end=$(date +%s) 
-  time=`echo $start $end | awk '{print $2-$1}'`
-  echo $time >> measure_score.txt
 done

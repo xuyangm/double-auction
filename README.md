@@ -1,15 +1,17 @@
-# hyperledger-fabric-double-auction
+# double-auction
 Double auction chaincode is saved in chaincode-go. Application code is saved in application-javascript. After test, time cost result will be saved in three txt files: measure_bid.txt, measure_withdraw.txt, measure_score.txt.<br>
-# Install
+## Install
 1. Fork hyperledger/fabric-samples project and make sure you can run test-network <br>
 2. Download our project and copy it to fabric-sample/ <br>
-3. cd fabric-sample/hyperledger-fabric-double-auction <br>
-4. npm init & npm install & npm install fabric-ca-client & npm install fabric-network <br>
-# Start 100 buyers and 100 sellers test
+3. cd fabric-sample/hyperledger-fabric-double-auction/application-javascript <br>
+4. npm init <br>
+5. npm install <br>
+6. npm install fabric-ca-client && npm install fabric-network && npm install perf_hooks<br>
+## Start 100 buyers and 100 sellers test
 cd test/ & bash start.sh<br>
-# Reset all
+## Reset all
 cd test/ & bash reset.sh<br>
-# Application
+## Application
 bid.js: submit bids<br>
 enrollAdmin.js: enroll org CA admin<br>
 registerEnrollUser.js: register a user in CA<br>

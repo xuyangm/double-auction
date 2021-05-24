@@ -12,15 +12,7 @@ class Buyer:
     def self_print(self, f1, f2):
         print("node ../registerEnrollUser.js org1 buyer"+str(self.id), file=f1)
         print("node ../registerAccount.js org1 buyer"+str(self.id), file=f1)
-        str0 = "start=$(date +"+"%"+"s)"
-        print(str0, file=f2)
         print("node ../bid.js org1 buyer"+str(self.id)+" $1", self.price, self.time, str(self.quantities[0])+","+str(self.quantities[1])+","+str(self.quantities[2]), file=f2)
-        str1 = "end=$(date +"+"%"+"s)"
-        str2 = "time=`echo $start $end | awk '{print $2-$1}'`"
-        str3 = "echo $time >> measure_bid.txt"
-        print(str1, file=f2)
-        print(str2, file=f2)
-        print(str3, file=f2)
 
 class Seller:
 
@@ -33,15 +25,7 @@ class Seller:
     def self_print(self, f1, f2):
         print("node ../registerEnrollUser.js org2 seller"+str(self.id), file=f1)
         print("node ../registerAccount.js org2 seller"+str(self.id), file=f1)
-        str0 = "start=$(date +"+"%"+"s)"
-        print(str0, file=f2)
         print("node ../bid.js org2 seller"+str(self.id)+" $1", str(self.prices[0])+","+str(self.prices[1])+","+str(self.prices[2]), str(self.times[0])+","+str(self.times[1])+","+str(self.times[2]), str(self.quantities[0])+","+str(self.quantities[1])+","+str(self.quantities[2]), file=f2)
-        str1 = "end=$(date +"+"%"+"s)"
-        str2 = "time=`echo $start $end | awk '{print $2-$1}'`"
-        str3 = "echo $time >> measure_bid.txt"
-        print(str1, file=f2)
-        print(str2, file=f2)
-        print(str3, file=f2)
 
 
 def generate_clouds(number_of_buyers, number_of_sellers):
