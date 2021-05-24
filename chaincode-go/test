@@ -1,0 +1,121 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import math
+import re
+import os
+
+
+f1 = open('application-javascript/test/measure_bid.txt','r')
+f2 = open('application-javascript/test/measure_withdraw.txt','r')
+f3 = open('application-javascript/test/measure_score.txt','r')
+
+f4 = open('application-javascript/test/bid_python.txt','r')
+f5 = open('application-javascript/test/withdraw_python.txt','r')
+f6 = open('application-javascript/test/score_python.txt','r')
+
+a1 = [0]*200
+a2 = [0]*200
+a3 = [0]*200
+
+a4 = [0.0]*100
+a5 = [0.0]*100
+a6 = [0.0]*100
+
+line = f1.readline()
+count = 0
+while line:
+    a1[count] = int(line)
+    count += 1
+    line = f1.readline()
+
+line = f2.readline()
+count = 0
+while line:
+    a2[count] = int(line)
+    count += 1
+    line = f2.readline()
+
+line = f3.readline()
+count = 0
+while line:
+    a3[count] = int(line)
+    count += 1
+    line = f3.readline()
+
+line = f4.readline()
+count = 0
+while line:
+    a4[count] = float(line)
+    count += 1
+    line = f4.readline()
+
+line = f5.readline()
+count = 0
+while line:
+    a5[count] = float(line)
+    count += 1
+    line = f5.readline()
+
+line = f6.readline()
+count = 0
+while line:
+    a6[count] = float(line)
+    count += 1
+    line = f6.readline()
+
+f1.close()
+f2.close()
+f3.close()
+f4.close()
+f5.close()
+f6.close()
+
+test_rounds = 100
+std_deviations1 = np.std(a1)
+std_deviations2 = np.std(a2)
+std_deviations3 = np.std(a3)
+std_deviations4 = np.std(a4)
+std_deviations5 = np.std(a5)
+std_deviations6 = np.std(a6)
+confidence_interval1 = std_deviations1/math.sqrt(200)*1.96
+confidence_interval2 = std_deviations2/math.sqrt(test_rounds)*1.96
+confidence_interval3 = std_deviations3/math.sqrt(test_rounds)*1.96
+confidence_interval4 = std_deviations4/math.sqrt(test_rounds)*1.96
+confidence_interval5 = std_deviations5/math.sqrt(test_rounds)*1.96
+confidence_interval6 = std_deviations6/math.sqrt(test_rounds)*1.96
+
+types_of_markets = 6
+fig, ax = plt.subplts()
+plt.ylabel("Time (s)")
+x = [0]*types_of_markets
+xlabel = [11, 11.5, 13, 13.5, 15, 15.5]
+total_width, n = 8, 8
+width = 0.5
+for i in range(0, types_of_markets):
+    x[i] = xlabel[i]
+bidCost = str(round(sum(a4)/test_rounds*1000, 1)) + "ms"
+scoreCost = str(round(sum(a6)/test_rounds*1000, 1))+"ms"
+data = [a1, a4, a2, a5, a3, a6]
+ax.boxplot(data)
+
+plt.errorbar(x[0], sum(a1)/200, yerr=confidence_interval1, fmt="none", capsize=1, ecolor='black', linewidth=1)
+plt.bar(x[0], sum(a1)/200, width=width, label="blockchain", fc='#E72363', edgecolor='black', linewidth=1)
+plt.errorbar(x[2], sum(a2)/test_rounds, yerr=confidence_interval2, fmt="none", capsize=1, ecolor='black', linewidth=1)
+plt.bar(x[2], sum(a2)/test_rounds, width=width, fc='#E72363', edgecolor='black', linewidth=1)
+plt.errorbar(x[4], sum(a3)/test_rounds, yerr=confidence_interval3, fmt="none", capsize=1, ecolor='black', linewidth=1)
+plt.bar(x[4], sum(a3)/test_rounds, width=width, fc='#E72363', edgecolor='black', linewidth=1)
+
+plt.errorbar(x[1], sum(a4)/test_rounds, yerr=confidence_interval4, fmt="none", capsize=1, ecolor='black', linewidth=1)
+plt.bar(x[1], 0.01, width=width, fc='#38B770', edgecolor='black', linewidth=1)
+plt.text(x[1], 0.05, bidCost, ha='center')
+plt.errorbar(x[3], sum(a5)/test_rounds, yerr=confidence_interval5, fmt="none", capsize=1, ecolor='black', linewidth=1)
+plt.bar(x[3], sum(a5)/test_rounds, width=width, label='non-blockchain', fc='#38B770', edgecolor='black', linewidth=1)
+plt.errorbar(x[5], sum(a6)/test_rounds, yerr=confidence_interval6, fmt="none", capsize=1, ecolor='black', linewidth=1)
+plt.bar(x[5], 0.01, width=width, fc='#38B770', edgecolor='black', linewidth=1)
+plt.text(x[5], 0.05, scoreCost, ha='center')
+plt.xticks([11.25, 13.25, 15.25], ['bid', 'withdraw', 'score'])
+plt.legend(loc="best", prop={'size': 8})
+plt.show()
+print(sum(a4)/test_rounds)
+print(sum(a6)/test_rounds)
+#sum(a6)/test_rounds

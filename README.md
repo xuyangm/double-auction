@@ -7,10 +7,11 @@ Double auction chaincode is saved in chaincode-go. Application code is saved in 
 4. npm init <br>
 5. npm install <br>
 6. npm install fabric-ca-client && npm install fabric-network && npm install perf_hooks<br>
+7. npm audit fix<br>
 ## Start 100 buyers and 100 sellers test
-cd test/ & bash start.sh<br>
+cd test/ && bash start.sh<br>
 ## Reset all
-cd test/ & bash reset.sh<br>
+cd test/ && bash reset.sh<br>
 ## Application
 bid.js: submit bids<br>
 enrollAdmin.js: enroll org CA admin<br>
