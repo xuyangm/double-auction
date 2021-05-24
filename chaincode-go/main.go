@@ -12,11 +12,11 @@ import (
 func main() {
 	auctionContract := new(AuctionContract)
 	auctionContract.Info.Version = "0.0.1"
-	auctionContract.Info.Description = "My Smart Contract"
+	auctionContract.Info.Description = "Double Auction"
 	auctionContract.Info.License = new(metadata.LicenseMetadata)
 	auctionContract.Info.License.Name = "Apache-2.0"
 	auctionContract.Info.Contact = new(metadata.ContactMetadata)
-	auctionContract.Info.Contact.Name = "John Doe"
+	auctionContract.Info.Contact.Name = "Xuyang Ma"
 
 	chaincode, err := contractapi.NewChaincode(auctionContract)
 	chaincode.Info.Title = "try chaincode"

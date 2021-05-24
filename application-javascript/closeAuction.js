@@ -1,5 +1,5 @@
 /*
- * Copyright IBM Corp. All Rights Reserved.
+ * Copyright Xuyang Ma. All Rights Reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,15 +17,12 @@ async function closeAuction(ccp,wallet,user,auctionID) {
 	try {
 
 		const gateway = new Gateway();
-
-		//connect using Discovery enabled
 		await gateway.connect(ccp,
 			{ wallet: wallet, identity: user, discovery: { enabled: true, asLocalhost: true } });
 
 		const network = await gateway.getNetwork(myChannel);
 		const contract = network.getContract(myChaincodeName);
 
-		// Query the auction to get the list of endorsing orgs.
 		let auctionString = await contract.evaluateTransaction('QueryAuction',auctionID);
 		let auctionJSON = JSON.parse(auctionString);
 

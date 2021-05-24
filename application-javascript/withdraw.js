@@ -1,5 +1,5 @@
 /*
- * Copyright IBM Corp. All Rights Reserved.
+ * Copyright Xuyang Ma. All Rights Reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,26 +19,17 @@ const myChaincodeName = 'auction';
 async function withdraw(ccp,wallet,user,auctionID) {
 	try {
 		const gateway = new Gateway();
-		//connect using Discovery enabled
-
 		await gateway.connect(ccp,
 			{ wallet: wallet, identity: user, discovery: { enabled: true, asLocalhost: true } });
 
 		const network = await gateway.getNetwork(myChannel);
 		const contract = network.getContract(myChaincodeName);
 
-		//let bidData = { objectType: 'bid', price: parseInt(price), org: orgMSP, bidder: bidder.toString()};
-
 		let statefulTxn = contract.createTransaction('Withdraw');
 
 		console.log('\n--> Submit Transaction: Withdraw');
 		let result = await statefulTxn.submit(auctionID, user);
 		console.log('*** Result: committed' + result);
-
-		//console.log('\n--> Evaluate Transaction: read the bid that was just created');
-		//let result = await contract.evaluateTransaction('QueryBid',auctionID,bidID);
-		//console.log('*** Result:  Bid: ' + prettyJSONString(result.toString()));
-
 		gateway.disconnect();
 	} catch (error) {
 		console.error(`******** FAILED to submit bid: ${error}`);
@@ -62,16 +53,12 @@ async function main() {
 		const auctionID = process.argv[4];
 
 		if (org === 'Org1' || org === 'org1') {
-
-			//const orgMSP = 'Org1MSP';
 			const ccp = buildCCPOrg1();
 			const walletPath = path.join(__dirname, 'wallet/org1');
 			const wallet = await buildWallet(Wallets, walletPath);
 			await withdraw(ccp,wallet,user,auctionID);
 		}
 		else if (org === 'Org2' || org === 'org2') {
-
-			//const orgMSP = 'Org2MSP';
 			const ccp = buildCCPOrg2();
 			const walletPath = path.join(__dirname, 'wallet/org2');
 			const wallet = await buildWallet(Wallets, walletPath);

@@ -1,5 +1,5 @@
 /*
- * Copyright IBM Corp. All Rights Reserved.
+ * Copyright Xuyang Ma. All Rights Reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,8 +17,6 @@ async function createAuction(ccp,wallet,user,auctionID) {
 	try {
 
 		const gateway = new Gateway();
-
-		//connect using Discovery enabled
 		await gateway.connect(ccp,
 			{ wallet: wallet, identity: user, discovery: { enabled: true, asLocalhost: true } });
 
