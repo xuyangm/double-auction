@@ -71,7 +71,7 @@ async function main() {
 			console.log('Org must be Org1 or Org2');
 		}
 		const end = performance.now();
-		fs.appendFile('measure_bid.txt', `${(end - start)/1000}`, err => {
+		fs.appendFile('measure_bid.txt', `${(end - start)/1000}\r\n`, err => {
 			if (err) {
 			  console.error(err)
 			  return
